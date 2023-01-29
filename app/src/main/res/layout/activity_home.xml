@@ -11,6 +11,20 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".Views.HomeActivity">
 
+    <Button
+        android:id="@+id/Logout"
+        android:layout_width="94dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="314dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="36dp"
+        android:text="Logout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/new_chat"
+        app:layout_constraintTop_toBottomOf="@+id/list" />
+
     <ListView
         android:id="@+id/list"
         android:layout_width="412dp"
