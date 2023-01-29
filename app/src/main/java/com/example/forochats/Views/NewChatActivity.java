@@ -28,6 +28,14 @@ public class NewChatActivity extends AppCompatActivity {
         String name = getIntent().getExtras().getString("name");
         TextView theme = (TextView) findViewById(R.id.theme);
         Button create_chat = (Button) findViewById(R.id.create_chat);
+        Button Back = (Button) findViewById(R.id.Back);
+        Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
+            }
+        });
         create_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,7 +50,7 @@ public class NewChatActivity extends AppCompatActivity {
                                 InputStream stream = null;
                                 //"http://192.168.1.144:9000/Application/ComprarProducte"
                                 //http://localhost:9000/Application/entrar?n=Alvaro&password=1234
-                                String query = "http://192.168.1.39:9000/Application/crearchat?theme=" + theme.getText().toString() + "&name=" + name;
+                                String query = "http://192.168.1.37:9000/Application/crearchat?theme=" + theme.getText().toString() + "&name=" + name;
                                 //String query = String.format("http://10.192.171.29:9000/Application/hello");
                                 URL url = new URL(query);
                                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -66,7 +74,6 @@ public class NewChatActivity extends AppCompatActivity {
                                 }
                                 int i = Integer.valueOf(sb.toString());
                                 Looper.prepare();
-                                Toast.makeText(getApplicationContext(), i, Toast.LENGTH_SHORT).show();
                                 if (i == 200) {
                                     //Toast.makeText(getApplicationContext(), "Chat Created succesfully", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);

@@ -1,5 +1,6 @@
 package com.example.forochats.Views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
@@ -35,6 +36,7 @@ public class ChatActivity extends AppCompatActivity {
         TextView MessageEditText = (TextView) findViewById(R.id.NewMessage);
         Button SenMsgButton = (Button) findViewById(R.id.Sendmsg);
         mostrar_chat(theme, list);
+        Button Back = (Button) findViewById(R.id.Back2);
         SenMsgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,7 +50,7 @@ public class ChatActivity extends AppCompatActivity {
                             InputStream stream = null;
                             //"http://192.168.1.144:9000/Application/ComprarProducte"
                             //http://localhost:9000/Application/entrar?n=Alvaro&password=1234
-                            String query = "http://192.168.1.39:9000/Application/crearmensaje?mensaje=" + MessageEditText.getText().toString() + "&theme=" + theme + "&email=" + name;
+                            String query = "http://192.168.1.37:9000/Application/crearmensaje?mensaje=" + MessageEditText.getText().toString() + "&theme=" + theme + "&email=" + name;
                             //String query = String.format("http://10.192.171.29:9000/Application/hello");
                             URL url = new URL(query);
                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -78,10 +80,19 @@ public class ChatActivity extends AppCompatActivity {
                             }
                         } catch (Exception e) {
                             Looper.prepare();
-                                Toast.makeText(getApplicationContext(),"Error, please try again later" + e, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Error, please try again later" + e, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).start();
+            }
+        });
+
+
+        Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -96,7 +107,7 @@ public class ChatActivity extends AppCompatActivity {
                     InputStream stream = null;
                     //"http://192.168.1.144:9000/Application/ComprarProducte"
                     //http://localhost:9000/Application/entrar?n=Alvaro&password=1234
-                    String query = "http://192.168.1.39:9000/Application/getchat?theme=" + s;
+                    String query = "http://192.168.1.37:9000/Application/getchat?theme=" + s;
                     //String query = String.format("http://10.192.171.29:9000/Application/hello");
                     URL url = new URL(query);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -144,7 +155,7 @@ public class ChatActivity extends AppCompatActivity {
         List<String> strings4 = new ArrayList<String>();
         if (str.toString() != "[]") {
             String[] strings2 = str.toString().split("/");
-            for (int k = 0; k < strings2.length / 2; k = k + 2) {
+            for (int k = 0; k < strings2.length; k = k + 2) {
                 string3.add(strings2[k]);
                 strings4.add(strings2[k + 1]);
             }

@@ -32,7 +32,7 @@ public class HomeActivity extends AppCompatActivity {
         String name = getIntent().getExtras().getString("name");
         ListView list = (ListView) findViewById(R.id.list);
         Button nuevo_chat = (Button) findViewById(R.id.new_chat);
-
+       Button Logout = (Button) findViewById(R.id.Logout);
         new Thread(new Runnable() {
             InputStream stream = null;
             String str = "";
@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
                     InputStream stream = null;
                     //"http://192.168.1.144:9000/Application/ComprarProducte"
                     //http://localhost:9000/Application/entrar?n=Alvaro&password=1234
-                    String query = "http://192.168.1.39:9000/Application/getchats?";
+                    String query = "http://192.168.1.37:9000/Application/getchats?";
                     //String query = String.format("http://10.192.171.29:9000/Application/hello");
                     URL url = new URL(query);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -90,6 +90,13 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), NewChatActivity.class);
                 intent.putExtra("name", name);
+                startActivity(intent);
+            }
+        });
+        Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
             }
         });
