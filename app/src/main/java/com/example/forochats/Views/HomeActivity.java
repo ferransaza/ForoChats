@@ -2,12 +2,14 @@ package com.example.forochats.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,13 +25,13 @@ public class HomeActivity extends AppCompatActivity {
 
     public String a = "";
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        String name = getIntent().getExtras().getString("name", "");
+        String name = getIntent().getExtras().getString("name");
         ListView list = (ListView) findViewById(R.id.list);
+        Button nuevo_chat = (Button) findViewById(R.id.new_chat);
 
         new Thread(new Runnable() {
             InputStream stream = null;
@@ -42,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
                     InputStream stream = null;
                     //"http://192.168.1.144:9000/Application/ComprarProducte"
                     //http://localhost:9000/Application/entrar?n=Alvaro&password=1234
-                    String query = "http://192.168.1.139:9000/Application/getchats?";
+                    String query = "http://192.168.1.39:9000/Application/getchats?";
                     //String query = String.format("http://10.192.171.29:9000/Application/hello");
                     URL url = new URL(query);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -65,22 +67,11 @@ public class HomeActivity extends AppCompatActivity {
                         sb.append(line);
                     }
 
-                    // n.setText("Resposta rebuda  thread" + sb);
-                    TextView n = findViewById(R.id.debugText);
-                    n.post(new Runnable() {
-                        public void run() {
-                            a = sb.toString();
-                            mostrar_lista(sb.toString(), list);
-                        }
-                    });
+                    a = sb.toString();
+                    mostrar_lista(sb.toString(), list);
                 } catch (Exception e) {
-                    TextView n = findViewById(R.id.debugText);
-                    n.post(new Runnable() {
-                        public void run() {
-                            n.setText("Catch: " + e);
-                        }
-                    });
-                    e.printStackTrace();
+                    Looper.prepare();
+                    Toast.makeText(getApplicationContext(),"Resposta rebuda thread" + e, Toast.LENGTH_SHORT).show();
                 }
             }
         }).start();
@@ -88,64 +79,20 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String s = list.getItemAtPosition(i).toString();
-                openChatActivity(s, name);
-
+                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                intent.putExtra("name", name);
+                intent.putExtra("theme", s);
+                startActivity(intent);
             }
         });
-    }
-
-    public void mostrar_chat(String s, ListView l){
-        new Thread(new Runnable() {
-            InputStream stream = null;
-            String str = "";
-            String result = null;
-            public void run() {
-                try {
-                    InputStream stream = null;
-                    //"http://192.168.1.144:9000/Application/ComprarProducte"
-                    //http://localhost:9000/Application/entrar?n=Alvaro&password=1234
-                    String query = "http://192.168.1.139:9000/Application/getchat?theme=" + s;
-                    //String query = String.format("http://10.192.171.29:9000/Application/hello");
-                    URL url = new URL(query);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setReadTimeout(10000 );
-                    conn.setConnectTimeout(15000 /* milliseconds */);
-                    conn.setRequestMethod("GET");
-                    conn.setDoInput(true);
-                    conn.setDoOutput(true);
-                    conn.connect();
-
-                    //send parameters in message body
-                    // n.setText("Esperant resposta  thread");
-                    //receive response from server
-                    stream = conn.getInputStream();
-                    BufferedReader reader;
-                    StringBuilder sb = new StringBuilder();
-                    reader = new BufferedReader(new InputStreamReader(stream));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line);
-                    }
-
-                    // n.setText("Resposta rebuda  thread" + sb);
-                    TextView n = findViewById(R.id.debugText);
-                    n.post(new Runnable() {
-                        public void run() {
-                            a = sb.toString();
-                            n.setText(sb.toString());
-                        }
-                    });
-                } catch (Exception e) {
-                    TextView n = findViewById(R.id.debugText);
-                    n.post(new Runnable() {
-                        public void run() {
-                            n.setText("Catch: " + e);
-                        }
-                    });
-                    e.printStackTrace();
-                }
+        nuevo_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), NewChatActivity.class);
+                intent.putExtra("name", name);
+                startActivity(intent);
             }
-        }).start();
+        });
     }
 
     public void mostrar_lista(String str, ListView l){

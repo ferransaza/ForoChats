@@ -2,6 +2,7 @@ package com.example.forochats.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,11 +18,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.net.URL;
-import java.util.Enumeration;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
         //final Button loginButton = binding.login;
         ProgressBar loadingProgressBar = (ProgressBar) findViewById(R.id.loading);
         //final ProgressBar loadingProgressBar = binding.loading;
-        String ip = getIpAddress();
 
 
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
                 //Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 //startActivity(intent);
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                intent.putExtra("ip", ip);
                 startActivity(intent);
             }
         });
@@ -64,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
                     String result = null;
                     public void run() {
                         Log.i("Debug :" ,"Debug");
-
                         try {
                             InputStream stream = null;
                             //"http://192.168.1.144:9000/Application/ComprarProducte"
@@ -81,9 +75,6 @@ public class LoginActivity extends AppCompatActivity {
                             conn.setDoOutput(true);
                             conn.connect();
 
-                            //send parameters in message body
-                            // n.setText("Esperant resposta  thread");
-                            //receive response from server
                             stream = conn.getInputStream();
                             BufferedReader reader;
                             StringBuilder sb = new StringBuilder();
@@ -92,68 +83,25 @@ public class LoginActivity extends AppCompatActivity {
                             while ((line = reader.readLine()) != null) {
                                 sb.append(line);
                             }
-
-                            // n.setText("Resposta rebuda  thread" + sb);
-                            TextView n = findViewById(R.id.debugText);
-                            n.post(new Runnable() {
-                                public void run() {
-                                    int i = Integer.valueOf(sb.toString());
-                                    if (i == 200){
-                                        Toast.makeText(getApplicationContext(),"Logged", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                        intent.putExtra("name", name);
-                                        intent.putExtra("ip", ip);
-                                        startActivity(intent);
-                                    }
-                                    else{
-                                        Toast.makeText(getApplicationContext(),"Error logging", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
+                            int i = Integer.valueOf(sb.toString());
+                            Looper.prepare();
+                            if (i == 200){
+                                Toast.makeText(getApplicationContext(),"Logged", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                intent.putExtra("name", name);
+                                startActivity(intent);
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"Error logging", Toast.LENGTH_SHORT).show();
+                            }
                         } catch (Exception e) {
-                            TextView n = findViewById(R.id.debugText);
-                            n.post(new Runnable() {
-                                public void run() {
-                                    n.setText("Resposta rebuda thread " + e);
-                                }
-                            });
-                            e.printStackTrace();
+                            Looper.prepare();
+                            Toast.makeText(getApplicationContext(),"Resposta rebuda thread" + e, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).start();
             }
         });
 
-    }
-
-    private String getIpAddress() {
-        String ip = "";
-        try {
-            Enumeration<NetworkInterface> enumNetworkInterfaces = NetworkInterface
-                    .getNetworkInterfaces();
-            while (enumNetworkInterfaces.hasMoreElements()) {
-                NetworkInterface networkInterface = enumNetworkInterfaces
-                        .nextElement();
-                Enumeration<InetAddress> enumInetAddress = networkInterface
-                        .getInetAddresses();
-                while (enumInetAddress.hasMoreElements()) {
-                    InetAddress inetAddress = enumInetAddress.nextElement();
-
-                    if (inetAddress.isSiteLocalAddress()) {
-                        ip += inetAddress.getHostAddress();
-                    }
-
-                }
-
-            }
-
-        } catch (SocketException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            ip += "Something Wrong! " + e.toString() + "\n";
-        }
-
-        return ip;
     }
 }
