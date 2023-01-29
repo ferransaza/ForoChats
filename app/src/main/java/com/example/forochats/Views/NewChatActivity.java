@@ -66,7 +66,6 @@ public class NewChatActivity extends AppCompatActivity {
                                 }
                                 int i = Integer.valueOf(sb.toString());
                                 Looper.prepare();
-                                Toast.makeText(getApplicationContext(), i, Toast.LENGTH_SHORT).show();
                                 if (i == 200) {
                                     //Toast.makeText(getApplicationContext(), "Chat Created succesfully", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);

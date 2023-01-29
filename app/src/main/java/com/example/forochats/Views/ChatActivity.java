@@ -34,7 +34,6 @@ public class ChatActivity extends AppCompatActivity {
         ListView list = (ListView) findViewById(R.id.list);
         TextView MessageEditText = (TextView) findViewById(R.id.NewMessage);
         Button SenMsgButton = (Button) findViewById(R.id.Sendmsg);
-        mostrar_chat(theme, list);
         SenMsgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,7 +121,9 @@ public class ChatActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mostrar_lista2(sb.toString(), l);
+                            if(sb.toString().equals("") == false) {
+                                mostrar_lista2(sb.toString(), l);
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -144,7 +145,7 @@ public class ChatActivity extends AppCompatActivity {
         List<String> strings4 = new ArrayList<String>();
         if (str.toString() != "[]") {
             String[] strings2 = str.toString().split("/");
-            for (int k = 0; k < strings2.length / 2; k = k + 2) {
+            for (int k = 0; k < strings2.length; k = k + 2) {
                 string3.add(strings2[k]);
                 strings4.add(strings2[k + 1]);
             }
