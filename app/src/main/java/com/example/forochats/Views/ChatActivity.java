@@ -35,8 +35,10 @@ public class ChatActivity extends AppCompatActivity {
         ListView list = (ListView) findViewById(R.id.list);
         TextView MessageEditText = (TextView) findViewById(R.id.NewMessage);
         Button SenMsgButton = (Button) findViewById(R.id.Sendmsg);
+
         mostrar_chat(theme, list);
         Button Back = (Button) findViewById(R.id.Back2);
+
         SenMsgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,7 +135,9 @@ public class ChatActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mostrar_lista2(sb.toString(), l);
+                            if(sb.toString().equals("") == false) {
+                                mostrar_lista2(sb.toString(), l);
+                            }
                         }
                     });
                 } catch (Exception e) {
