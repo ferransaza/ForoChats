@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
                     InputStream stream = null;
                     //"http://192.168.1.144:9000/Application/ComprarProducte"
                     //http://localhost:9000/Application/entrar?n=Alvaro&password=1234
-                    String query = "http://192.168.1.37:9000/Application/getchats?";
+                    String query = "http://192.168.1.39:9000/Application/getchats?";
                     //String query = String.format("http://10.192.171.29:9000/Application/hello");
                     URL url = new URL(query);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -66,9 +66,15 @@ public class HomeActivity extends AppCompatActivity {
                     while ((line = reader.readLine()) != null) {
                         sb.append(line);
                     }
-
-                    a = sb.toString();
-                    mostrar_lista(sb.toString(), list);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(sb.toString().equals("") == false) {
+                                a = sb.toString();
+                                mostrar_lista(sb.toString(), list);
+                            }
+                        }
+                    });
                 } catch (Exception e) {
                     Looper.prepare();
                     Toast.makeText(getApplicationContext(),"Resposta rebuda thread" + e, Toast.LENGTH_SHORT).show();

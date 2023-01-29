@@ -52,7 +52,7 @@ public class ChatActivity extends AppCompatActivity {
                             InputStream stream = null;
                             //"http://192.168.1.144:9000/Application/ComprarProducte"
                             //http://localhost:9000/Application/entrar?n=Alvaro&password=1234
-                            String query = "http://192.168.1.37:9000/Application/crearmensaje?mensaje=" + MessageEditText.getText().toString() + "&theme=" + theme + "&email=" + name;
+                            String query = "http://192.168.1.39:9000/Application/crearmensaje?mensaje=" + MessageEditText.getText().toString() + "&theme=" + theme + "&email=" + name;
                             //String query = String.format("http://10.192.171.29:9000/Application/hello");
                             URL url = new URL(query);
                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -109,7 +109,7 @@ public class ChatActivity extends AppCompatActivity {
                     InputStream stream = null;
                     //"http://192.168.1.144:9000/Application/ComprarProducte"
                     //http://localhost:9000/Application/entrar?n=Alvaro&password=1234
-                    String query = "http://192.168.1.37:9000/Application/getchat?theme=" + s;
+                    String query = "http://192.168.1.39:9000/Application/getchat?theme=" + s;
                     //String query = String.format("http://10.192.171.29:9000/Application/hello");
                     URL url = new URL(query);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();

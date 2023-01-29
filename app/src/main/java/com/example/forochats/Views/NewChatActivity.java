@@ -24,7 +24,6 @@ public class NewChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_chat);
-        String ip = getIntent().getExtras().getString("ip");
         String name = getIntent().getExtras().getString("name");
         TextView theme = (TextView) findViewById(R.id.theme);
         Button create_chat = (Button) findViewById(R.id.create_chat);
@@ -50,7 +49,7 @@ public class NewChatActivity extends AppCompatActivity {
                                 InputStream stream = null;
                                 //"http://192.168.1.144:9000/Application/ComprarProducte"
                                 //http://localhost:9000/Application/entrar?n=Alvaro&password=1234
-                                String query = "http://192.168.1.37:9000/Application/crearchat?theme=" + theme.getText().toString() + "&name=" + name;
+                                String query = "http://192.168.1.39:9000/Application/crearchat?theme=" + theme.getText().toString() + "&name=" + name;
                                 //String query = String.format("http://10.192.171.29:9000/Application/hello");
                                 URL url = new URL(query);
                                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -78,7 +77,6 @@ public class NewChatActivity extends AppCompatActivity {
                                     //Toast.makeText(getApplicationContext(), "Chat Created succesfully", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                     intent.putExtra("name", name);
-                                    intent.putExtra("ip", ip);
                                     startActivity(intent);
                                 } else {
                                     //Toast.makeText(getApplicationContext(), "Error creating the chat", Toast.LENGTH_SHORT).show();

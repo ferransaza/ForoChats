@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                             InputStream stream = null;
                             //"http://192.168.1.144:9000/Application/ComprarProducte"
                             //http://localhost:9000/Application/entrar?n=Alvaro&password=1234
-                            String query = "http://192.168.1.37:9000/Application/entrar?email=" + usernameEditText.getText().toString() + "&password=" + passwordEditText.getText().toString();
+                            String query = "http://192.168.1.39:9000/Application/entrar?email=" + usernameEditText.getText().toString() + "&password=" + passwordEditText.getText().toString();
                             name = usernameEditText.getText().toString();
                             //String query = String.format("http://10.192.171.29:9000/Application/hello");
                             URL url = new URL(query);
